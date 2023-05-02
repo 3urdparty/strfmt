@@ -42,12 +42,13 @@ project(${LIBRARY_NAME})
 
 # conditionally_add (mylib mysrc.cc ${some_condition})
 if (TARGET strfmt)
+
 else()
-add_library(${LIBRARY_NAME} STATIC
-    ${LIBRARY_HEADERS}
-    ${LIBRARY_SOURCE}
-)
+    add_library(${LIBRARY_NAME} STATIC
+        ${LIBRARY_HEADERS}
+        ${LIBRARY_SOURCE})
 endif()
+
 
 
 #########

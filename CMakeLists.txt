@@ -40,15 +40,16 @@ project(${LIBRARY_NAME})
 
 
 
-# conditionally_add (mylib mysrc.cc ${some_condition})
+
+
 if (TARGET strfmt)
-
+  # Do something when target found
 else()
-    add_library(${LIBRARY_NAME} STATIC
-        ${LIBRARY_HEADERS}
-        ${LIBRARY_SOURCE})
+add_library(${LIBRARY_NAME} STATIC
+    ${LIBRARY_HEADERS}
+    ${LIBRARY_SOURCE}
+)
 endif()
-
 
 
 #########
@@ -112,24 +113,24 @@ gtest_discover_tests(${TESTS_NAME})
 
 # Git submodules
 find_package(Git QUIET)
-if(GIT_FOUND AND EXISTS /.git)
+if(GIT_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 	# Update submodules as needed
-	option(GIT_SUBMODULE Check submodules during build ON)
+	option(GIT_SUBMODULE "Check submodules during build" ON)
 	if (GIT_SUBMODULE)
 		message(STATUS Submodule update)
-		execute_process(COMMAND  submodule update --init --recursive
-			WORKING_DIRECTORY 
+		execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+			WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 		    RESULT_VARIABLE GIT_SUBMOD_RESULT)
-		if(NOT GIT_SUBMOD_RESULT EQUAL 0)
-			message(FATAL_ERROR git submodule update --init failed with , please checkout submodules)
+		if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+			message(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
 		endif()
 	endif()
 endif()
   
 
-foreach(LIBRARY )
-if (NOT EXISTS /libs//CMakeLists.txt)
-	message(FATAL_ERROR The submodule was not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.)
+foreach(LIBRARY ${MAIN_LIBRARIES})
+if (NOT EXISTS "${PROJECT_SOURCE_DIR}/libs/${LIBRARY}/CMakeLists.txt")
+	message(FATAL_ERROR "The ${LIBRARY} submodule was not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 endforeach(LIBRARY)
 

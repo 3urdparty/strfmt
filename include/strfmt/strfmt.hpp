@@ -1,5 +1,5 @@
-#ifndef UTILITIES_HPP
-#define UTILITIES_HPP
+#ifndef STRFMT_HPP
+#define STRFMT_HPP
 
 #include <string>
 #include <tuple>
@@ -11,7 +11,6 @@ using namespace std;
 vector<string> splitString(string str, char delimiter);
 bool cmpstr(string str1, string str2);
 
-
 string join(vector<string>& strings, string delimiter);
 vector<string> convertFloatsToStrs(vector<float>& values);
 vector<float> convertStrToFloats(vector<string>& strings);
@@ -21,12 +20,7 @@ vector<string> sanitizeStrings(vector<string> strings);
 vector<string> convertToStrings(vector<int> numbers);
 vector<int> convertToInts(vector<string> strings);
 
-void readLines(string& path, vector<string>& content);
-
 void parseCSV(vector<string>&, vector<vector<string> >&);
-bool fileExists(string& path);
-void writeLinesToFile(string& path, vector<string>& csv);
-void copyFile(string& path1, string& path2);
 
 extern string clearfmt;
 extern string bold;

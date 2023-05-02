@@ -40,11 +40,14 @@ project(${LIBRARY_NAME})
 
 
 
-
+# conditionally_add (mylib mysrc.cc ${some_condition})
+if (TARGET strfmt)
+else()
 add_library(${LIBRARY_NAME} STATIC
     ${LIBRARY_HEADERS}
     ${LIBRARY_SOURCE}
 )
+endif()
 
 
 #########
@@ -105,6 +108,31 @@ gtest_discover_tests(${TESTS_NAME})
 ################
 # Dependencies #
 ################
+
+# Git submodules
+find_package(Git QUIET)
+if(GIT_FOUND AND EXISTS /.git)
+	# Update submodules as needed
+	option(GIT_SUBMODULE Check submodules during build ON)
+	if (GIT_SUBMODULE)
+		message(STATUS Submodule update)
+		execute_process(COMMAND  submodule update --init --recursive
+			WORKING_DIRECTORY 
+		    RESULT_VARIABLE GIT_SUBMOD_RESULT)
+		if(NOT GIT_SUBMOD_RESULT EQUAL 0)
+			message(FATAL_ERROR git submodule update --init failed with , please checkout submodules)
+		endif()
+	endif()
+endif()
+  
+
+foreach(LIBRARY )
+if (NOT EXISTS /libs//CMakeLists.txt)
+	message(FATAL_ERROR The submodule was not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.)
+endif()
+endforeach(LIBRARY)
+
+
 
 # Addinng all libraries in libs/
 foreach(LIBRARY ${MAIN_LIBRARIES})

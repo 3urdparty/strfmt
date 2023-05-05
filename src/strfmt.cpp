@@ -61,7 +61,7 @@ vector<int> convertToInts(vector<string> strings) {
   return values;
 }
 
-vector<float> convertStrToFloats(vector<string>& strings) {
+vector<float> convertToFloats(vector<string>& strings) {
   vector<float> values;
   for (string str : strings) {
     values.push_back(stof(str));
@@ -69,7 +69,7 @@ vector<float> convertStrToFloats(vector<string>& strings) {
   return values;
 }
 
-vector<string> convertFloatsToStrs(vector<float>& values) {
+vector<string> convertToStrings(vector<float>& values) {
   vector<string> rawValues;
   for (float val : values) {
     rawValues.push_back(to_string(val));
